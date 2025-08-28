@@ -8,8 +8,8 @@ typedef struct {
     t_accurate_pos pos;
     double         move_speed;
     double         rotation_speed;
-    double         view_angle;
-    unsigned int   current_level;
+    double         angle;
+    unsigned int   current_map_index;
     double         jump_height;
     double         vertical_speed;
     double         gravity;
@@ -17,7 +17,7 @@ typedef struct {
     bool           is_falling;
 } player;
 
-bool player_init(player *p, t_bunny_position spawn);
+bool player_init(player *p, t_bunny_position spawn, double spawn_angle);
 void player_start_jump(player *p, double initial_speed);
 void player_update_vertical_position(player *p, double delta_time);
 void player_reset_vertical_movement(player *p);
