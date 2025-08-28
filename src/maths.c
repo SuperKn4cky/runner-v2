@@ -18,10 +18,7 @@ t_accurate_pos position_to_accurate(t_bunny_position pos)
     return accurate_pos;
 }
 
-double deg_to_rads(double degrees)
-{
-    return (degrees * (2 * M_PI)) / 360;
-}
+double deg_to_rads(double degrees) { return (degrees * (2 * M_PI)) / 360; }
 
 float get_ratio(int a, int b, int x)
 {
@@ -38,7 +35,7 @@ float get_ratio(int a, int b, int x)
 int get_value(int a, int b, float ratio)
 {
     float tmp;
-    int value;
+    int   value;
 
     tmp = (ratio * (b - a) + a);
     value = tmp;
