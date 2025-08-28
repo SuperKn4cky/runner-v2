@@ -7,11 +7,18 @@ void game_cleanup(game *game)
     if (game->display.ds_win || game->display.ds_px) {
         display_cleanup(&game->display);
     }
-    if (game->map.grid) {
-        for (unsigned int i = 0; i < game->map.height; i++) {
-            free(game->map.grid[i]);
+    if (game->maps.map) {
+        for (int i = 0; i < game->maps.map_count; i++) {
+            if (game->maps.map[i].background) {
+                bunny_delete_clipable(&game->maps.map[i].background->clipable);
+            }
+            if (game->maps.map[i].grid) {
+                free(game->maps.map[i].grid);
+            }
         }
-        free(game->map.grid);
+        free(game->maps.map);
+        game->maps.map = NULL;
+        game->maps.map_count = 0;
     }
 }
 
@@ -53,7 +60,7 @@ t_bunny_response handle_input(game *game, t_bunny_keysym keycode, t_bunny_event_
 
 bool game_init(game *game)
 {
-    if (load_map_from_file(&game->map, "map.txt")) {
+    if (load_maps_from_file(&game->maps, "map.txt")) {
         return false;
     }
 
@@ -61,7 +68,7 @@ bool game_init(game *game)
         return false;
     }
 
-    if (player_init(&game->player, game->map.player_spawn)) {
+    if (player_init(&game->player, game->maps.map[0].player_spawn, game->maps.map[0].spawn_angle)) {
         display_cleanup(&game->display);
         return false;
     }
