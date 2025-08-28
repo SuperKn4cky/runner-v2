@@ -32,3 +32,8 @@ fclean: clean
 	@$(RM) $(NAME)
 
 re: fclean all
+
+format:
+	clang-format -i src/*.c
+
+.PHONY: all clean fclean re format
