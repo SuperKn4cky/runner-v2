@@ -1,16 +1,17 @@
-NAME	=	runner-v2.out
+NAME    = runner-v2.out
 
-SRCS	=	src/main.c \
+SRC_DIR = src
+OBJ_DIR = build
+INC_DIR = include
 
-OBJS	=	$(SRCS:.c=.o)
+SRCS    = $(wildcard $(SRC_DIR)/**/*.c $(SRC_DIR)/*.c)
+OBJS    = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-CFLAGS	+=	-W -Wall -Wextra -Werror -Iinclude/
+CFLAGS  = -Wall -Wextra -Werror -I$(INC_DIR)
+LDFLAGS = -llapin -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lstdc++ -lm -lavcall
 
-LDFLAGS	+= 	-llapin -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lstdc++ -lm -lavcall
-
-RM	=	rm -vf
-
-CC	:=	gcc
+CC      = gcc
+RM      = rm -vf
 
 ifdef RELEASE
 CFLAGS += -O2
@@ -25,6 +26,10 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
 	@$(RM) $(OBJS)
 
@@ -34,6 +39,6 @@ fclean: clean
 re: fclean all
 
 format:
-	clang-format -i src/*.c
+	clang-format -i $(SRC_DIR)/**/*.c $(SRC_DIR)/*.c $(INC_DIR)/*.h
 
 .PHONY: all clean fclean re format
