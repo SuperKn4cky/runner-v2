@@ -10,10 +10,15 @@ typedef struct {
     double              spawn_angle;
     unsigned int        width;
     unsigned int        height;
-    unsigned int      **grid;
+    unsigned int       *grid;
 } map;
 
-bool         load_map_from_file(map *m, const char *filename);
+typedef struct {
+    int  map_count;
+    map *map;
+} maps;
+
+bool         load_maps_from_file(maps *m, const char *filename);
 bool         is_wall(t_accurate_pos pos);
 bool         is_within_bounds(t_accurate_pos pos);
 unsigned int get_cell(t_accurate_pos pos);

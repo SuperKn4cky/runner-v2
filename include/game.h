@@ -10,7 +10,7 @@
 typedef struct {
     display      display;
     player       player;
-    map          map;
+    maps         maps;
     unsigned int game_speed;
     unsigned int fov;
     bool         pause;
