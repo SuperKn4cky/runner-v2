@@ -1,6 +1,6 @@
 #include "game.h"
-#include "maths.h"
 #include "graphics.h"
+#include "maths.h"
 
 void game_cleanup(game *game)
 {
@@ -26,14 +26,15 @@ void game_cleanup(game *game)
 
 t_bunny_response handle_input(game *game, t_bunny_keysym keycode, t_bunny_event_state state)
 {
-    (void)state;
     if (!game)
         return EXIT_ON_ERROR;
 
     switch (keycode) {
     case BKS_ESCAPE:
-        game->pause = !game->pause;
-        bunny_set_mouse_visibility(game->display.ds_win, game->pause);
+        if (state == GO_DOWN) {
+            game->pause = !game->pause;
+            bunny_set_mouse_visibility(game->display.ds_win, game->pause);
+        }
         break;
     case BKS_UP:
     case BKS_Z:
@@ -66,21 +67,20 @@ void render(game *game)
         return;
 
     clear_pixelarray(game->display.ds_px, 0x000000FF);
-
     raycasting(game);
 }
 
 bool game_init(game *game)
 {
-    if (load_maps_from_file(&game->maps, "maps.txt")) {
+    if (!load_maps_from_file(&game->maps, "maps.txt")) {
         return false;
     }
 
-    if (display_init(&game->display)) {
+    if (!display_init(&game->display)) {
         return false;
     }
 
-    if (player_init(&game->player, game->maps.map[0].player_spawn, game->maps.map[0].spawn_angle)) {
+    if (!player_init(&game->player, &game->maps.map[0])) {
         display_cleanup(&game->display);
         return false;
     }
