@@ -1,4 +1,6 @@
 #include "game.h"
+#include "maths.h"
+#include "graphics.h"
 
 void game_cleanup(game *game)
 {
@@ -26,7 +28,7 @@ t_bunny_response handle_input(game *game, t_bunny_keysym keycode, t_bunny_event_
 {
     (void)state;
     if (!game)
-        return (EXIT_ON_ERROR);
+        return EXIT_ON_ERROR;
 
     switch (keycode) {
     case BKS_ESCAPE:
@@ -55,12 +57,22 @@ t_bunny_response handle_input(game *game, t_bunny_keysym keycode, t_bunny_event_
     default:
         break;
     }
-    return (GO_ON);
+    return GO_ON;
+}
+
+void render(game *game)
+{
+    if (!game)
+        return;
+
+    clear_pixelarray(game->display.ds_px, 0x000000FF);
+
+    raycasting(game);
 }
 
 bool game_init(game *game)
 {
-    if (load_maps_from_file(&game->maps, "map.txt")) {
+    if (load_maps_from_file(&game->maps, "maps.txt")) {
         return false;
     }
 
