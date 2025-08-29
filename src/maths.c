@@ -39,5 +39,5 @@ int get_value(int a, int b, float ratio)
 
     tmp = (ratio * (b - a) + a);
     value = tmp;
-    return (value);
+    return value;
 }

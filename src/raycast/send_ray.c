@@ -6,7 +6,7 @@ t_accurate_pos move_forward(const t_accurate_pos *start, double angle, double le
 
     current_pos.x = (cos(angle) * len) + start->x;
     current_pos.y = ((sin(angle) * len) * -1) + start->y;
-    return (current_pos);
+    return current_pos;
 }
 
 ray_result send_ray(map *map, const t_accurate_pos *start, double angle)
@@ -17,7 +17,7 @@ ray_result send_ray(map *map, const t_accurate_pos *start, double angle)
     ray_result result = {0};
 
     if (!map || !start)
-        return (result);
+        return result;
 
     step = 0.005;
     distance = 0;
@@ -28,5 +28,5 @@ ray_result send_ray(map *map, const t_accurate_pos *start, double angle)
     }
     result.pos = current_pos;
     result.distance = distance;
-    return (result);
+    return result;
 }
