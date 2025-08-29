@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include "map.h"
+#include <stdio.h>
 
 bool load_maps_from_file(maps *m, const char *filename)
 {

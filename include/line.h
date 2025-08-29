@@ -4,9 +4,9 @@
 #include <lapin.h>
 
 struct line {
-    int width_diff;
-    int height_diff;
-    float ratio;
+    int              width_diff;
+    int              height_diff;
+    float            ratio;
     t_bunny_position position;
     t_bunny_position pos_a;
     t_bunny_position pos_b;

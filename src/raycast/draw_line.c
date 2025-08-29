@@ -1,9 +1,9 @@
+#include "graphics.h"
+#include "line.h"
+#include "maths.h"
 #include <lapin.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "line.h"
-#include "maths.h"
-#include "graphics.h"
 
 static void width(struct line *line, t_bunny_pixelarray *px, unsigned int color)
 {

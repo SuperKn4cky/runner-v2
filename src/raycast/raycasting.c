@@ -72,8 +72,7 @@ static double compute_wall_size(game *game, ray_result result, double ray_angle)
     double corrected_distance;
     double wall_size;
 
-    corrected_distance = result.distance *
-                         cos(game->player.angle - ray_angle);
+    corrected_distance = result.distance * cos(game->player.angle - ray_angle);
 
     if (corrected_distance < 0.0001)
         corrected_distance = 0.0001;
@@ -96,8 +95,8 @@ static void fov(game *game)
     angle = deg_to_rads(game->player.angle) - deg_to_rads(game->fov / 2);
 
     while (i < game->display.ds_px->clipable.clip_width) {
-        ray_result result = send_ray(&game->maps.map[game->player.current_map_index],
-                                     &game->player.pos, angle);
+        ray_result result =
+            send_ray(&game->maps.map[game->player.current_map_index], &game->player.pos, angle);
 
         double size_wall = compute_wall_size(game, result, angle);
 
@@ -107,7 +106,6 @@ static void fov(game *game)
         i++;
     }
 }
-
 
 void raycasting(game *game)
 {
