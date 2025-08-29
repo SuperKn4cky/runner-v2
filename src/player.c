@@ -1,13 +1,18 @@
 #include "player.h"
+#include "map.h"
 #include "maths.h"
 
-bool player_init(player *player, t_bunny_position spawn, double spawn_angle)
+bool player_init(player *player, struct map *map)
 {
-    if (!player)
+    if (!player || !map)
         return false;
 
-    player->pos = position_to_accurate(spawn);
-    player->angle = spawn_angle;
+    player->pos = position_to_accurate(map->player_spawn);
+    if (get_cell(map, player->pos) == 1) {
+        fprintf(stderr, "Error: Player spawn position is inside a wall.\n");
+        return false;
+    }
+    player->angle = map->spawn_angle;
     player->move_speed = 0.1;
     player->rotation_speed = 0.05;
     player->jump_height = 1.0;
