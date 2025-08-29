@@ -1,6 +1,7 @@
 #ifndef MAP_H_
 #define MAP_H_
 
+#include "player.h"
 #include "types.h"
 #include <lapin.h>
 
@@ -18,9 +19,15 @@ typedef struct {
     map *map;
 } maps;
 
-bool         load_maps_from_file(maps *m, const char *filename);
-bool         is_wall(t_accurate_pos pos);
-bool         is_within_bounds(t_accurate_pos pos);
-unsigned int get_cell(t_accurate_pos pos);
+typedef struct {
+    t_accurate_pos pos;
+    double         distance;
+} ray_result;
+
+bool         load_maps_from_file(maps *maps, const char *filename);
+bool         is_within_bounds(map *map, t_accurate_pos pos);
+bool         is_wall(map *map, t_accurate_pos pos);
+unsigned int get_cell(map *map, t_accurate_pos pos);
+ray_result   send_ray(map *map, const t_accurate_pos *start, double angle);
 
 #endif /* !MAP_H_ */
