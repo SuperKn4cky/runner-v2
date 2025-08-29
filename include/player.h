@@ -18,8 +18,8 @@ typedef struct {
 } player;
 
 bool player_init(player *p, t_bunny_position spawn, double spawn_angle);
-void player_start_jump(player *p, double initial_speed);
-void player_update_vertical_position(player *p, double delta_time);
-void player_reset_vertical_movement(player *p);
+// void player_start_jump(player *p, double initial_speed);
+// void player_update_vertical_position(player *p, double delta_time);
+// void player_reset_vertical_movement(player *p);
 
 #endif /* !PLAYER_H_ */
