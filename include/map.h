@@ -1,11 +1,10 @@
 #ifndef MAP_H_
 #define MAP_H_
 
-#include "player.h"
 #include "types.h"
 #include <lapin.h>
 
-typedef struct {
+typedef struct map {
     t_bunny_pixelarray *background;
     t_bunny_position    player_spawn;
     double              spawn_angle;

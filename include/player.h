@@ -4,6 +4,8 @@
 #include "types.h"
 #include <lapin.h>
 
+struct map;
+
 typedef struct {
     t_accurate_pos pos;
     double         move_speed;
@@ -17,7 +19,7 @@ typedef struct {
     bool           is_falling;
 } player;
 
-bool player_init(player *p, t_bunny_position spawn, double spawn_angle);
+bool player_init(player *p, struct map *m);
 // void player_start_jump(player *p, double initial_speed);
 // void player_update_vertical_position(player *p, double delta_time);
 // void player_reset_vertical_movement(player *p);
