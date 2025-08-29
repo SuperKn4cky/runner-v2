@@ -44,13 +44,13 @@ static void draw_wall(game *game, int size_wall, int player_pos, t_accurate_pos 
     pix.x = width - player_pos;
     pix.y = (height / 2) + vertical_offset;
     if (wall_type == 2) {
-        color = mk_colour(255, 0, 0, 1);
+        color = mk_colour(255, 0, 0, 255);
     }
     else if (wall_type == 1) {
-        color = mk_colour(255, 255, 255, 1);
+        color = mk_colour(255, 255, 255, 255);
     }
     else {
-        color = mk_colour(255, 255, 0, 1);
+        color = mk_colour(255, 255, 0, 255);
     }
     fprintf(stderr, "size_wall: %d\n", size_wall);
     while (i <= size_wall / 2) {
