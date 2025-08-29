@@ -46,14 +46,15 @@ static void draw_wall(game *game, int size_wall, int player_pos, t_accurate_pos 
     if (wall_type == 2) {
         color = mk_colour(255, 0, 0, 1);
     }
-    else if (wall_type == 1 || wall_type == 0) {
+    else if (wall_type == 1) {
         color = mk_colour(255, 255, 255, 1);
     }
     else {
         color = mk_colour(255, 255, 0, 1);
     }
+    fprintf(stderr, "size_wall: %d\n", size_wall);
     while (i <= size_wall / 2) {
-        put_pixel(game->display.ds_px, &pix, color);
+
         pix.y += 1;
         i += 1;
     }
@@ -66,27 +67,47 @@ static void draw_wall(game *game, int size_wall, int player_pos, t_accurate_pos 
     }
 }
 
+static double compute_wall_size(game *game, ray_result result, double ray_angle)
+{
+    double corrected_distance;
+    double wall_size;
+
+    corrected_distance = result.distance *
+                         cos(game->player.angle - ray_angle);
+
+    if (corrected_distance < 0.0001)
+        corrected_distance = 0.0001;
+
+    wall_size = (game->display.ds_px->clipable.clip_height / corrected_distance) * 0.75;
+
+    if (wall_size > game->display.ds_px->clipable.clip_height)
+        wall_size = game->display.ds_px->clipable.clip_height;
+
+    return wall_size;
+}
+
 static void fov(game *game)
 {
-    double angle, coef, size_wall;
+    double angle, coef;
     int    i;
 
     i = 0;
-    coef = game->fov / (double)game->display.ds_px->clipable.clip_width;
-    angle = game->player.angle - (game->fov / 2);
+    coef = deg_to_rads(game->fov) / (double)game->display.ds_px->clipable.clip_width;
+    angle = deg_to_rads(game->player.angle) - deg_to_rads(game->fov / 2);
+
     while (i < game->display.ds_px->clipable.clip_width) {
-        ray_result result = send_ray(&game->maps.map[game->player.current_map_index], &game->player.pos, deg_to_rads(angle));
-        size_wall = ((game->display.ds_px->clipable.clip_height / result.distance) *
-                     (double)(cos(deg_to_rads(angle)) - deg_to_rads(angle))) *
-                    0.75;
-        if (size_wall > game->display.ds_px->clipable.clip_height) {
-            size_wall = game->display.ds_px->clipable.clip_height;
-        }
+        ray_result result = send_ray(&game->maps.map[game->player.current_map_index],
+                                     &game->player.pos, angle);
+
+        double size_wall = compute_wall_size(game, result, angle);
+
         draw_wall(game, size_wall, i, result.pos);
+
         angle += coef;
-        i += 1;
+        i++;
     }
 }
+
 
 void raycasting(game *game)
 {
